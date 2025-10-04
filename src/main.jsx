@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router'
 import './index.css'
 import App from './App.jsx'
 import About from './About.jsx'
+import Nav from './Nav.jsx'
 
 import { AuthProvider, useAuth } from './AuthProvider'
 import { supabase } from './supabaseClient'
@@ -17,6 +18,7 @@ function ProtectedRoute({ children }) {
 
 createRoot(document.getElementById('root')).render(
   <AuthProvider>
+    <Nav />
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />

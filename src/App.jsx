@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import { supabase } from './supabaseClient'
 import { AuthProvider, useAuth } from './AuthProvider'
 
-import './App.css';
-
 function App() {
     const signInWithGoogle = async () => {
         await supabase.auth.signInWithOAuth({
@@ -21,9 +19,12 @@ function App() {
 
     return (
         <div>
-            <h1>home page!!!</h1>
-            <Link to="/about">aaa</Link>
-
+            <div class="text-center">
+                <h1 class="text-white text-7xl font-roboto">RUFree?</h1>
+                <h2 class="text-white text-3xl font-roboto">Get involved on campus!</h2>
+            </div>
+            
+            <Link class="text-white font-roboto" to="/about">About</Link>
             {user ? (
                 <>
                     <p>Signed in as {user.email}</p>
@@ -32,7 +33,7 @@ function App() {
             ) : (
                 <>
                     <p>Not signed in</p>
-                    <button onClick={signInWithGoogle}>Sign in with google</button>
+                    <button class="border-2 border-white rounded-lg border-solid p-2 w-34" onClick={signInWithGoogle}>Login</button>
                 </>
             )}
         </div>   
