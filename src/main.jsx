@@ -2,13 +2,12 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router'
 import './index.css'
-import App from './App.jsx'
-import About from './About.jsx'
-import Nav from './Nav.jsx'
+import Home from './pages/Home.jsx'
+import Nav from './components/Nav.jsx'
 
-import { AuthProvider, useAuth } from './AuthProvider'
+import { AuthProvider, useAuth } from './auth/AuthProvider.jsx'
 import { supabase } from './supabaseClient'
-import AuthCallback from './AuthCallback'
+import AuthCallback from './auth/AuthCallback.jsx'
 
 function ProtectedRoute({ children }) {
   const { user } = useAuth();
@@ -21,8 +20,7 @@ createRoot(document.getElementById('root')).render(
     <Nav />
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="about" element={<About />} />
+        <Route path="/" element={<Home />} />
         <Route path="/auth/callback" element={<AuthCallback />} />
         <Route path="protected" element={
           <ProtectedRoute>

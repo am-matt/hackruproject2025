@@ -1,5 +1,5 @@
-import { supabase } from './supabaseClient'
-import { AuthProvider, useAuth } from './AuthProvider'
+import { supabase } from '../supabaseClient'
+import { AuthProvider, useAuth } from '../auth/AuthProvider'
 
 export default function Nav() {
     const { user } = useAuth();

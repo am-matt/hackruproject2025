@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { supabase } from './supabaseClient'
-import { AuthProvider, useAuth } from './AuthProvider'
+import { supabase } from '../supabaseClient'
+import { AuthProvider, useAuth } from '../auth/AuthProvider'
 
-function App() {
+function Home() {
     const signInWithGoogle = async () => {
         await supabase.auth.signInWithOAuth({
             provider: 'google',
@@ -40,4 +40,4 @@ function App() {
     )
 }
 
-export default App;
+export default Home;
