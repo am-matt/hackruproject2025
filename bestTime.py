@@ -1,9 +1,13 @@
 import numpy as np
 import itertools
 import os
-#from supabase import create_client, Client
+import math
+from supabase import create_client, Client
+
 BLOCKS=96
 DAYS=7
+PEOPLE=50
+WINDOW=4 #1 block is 15 mins. Ex. WINDOW=4 means 4 blocks ~ 1hour
 
 def create_client():
     url: str = os.environ.get("SUPABASE_URL")
@@ -26,8 +30,10 @@ def example():
     e = np.random.randint(0, 2, size=(DAYS, BLOCKS))
     return a, b, c, d, e
 
-def calculate_times(a, b, c, d, e, window=1):
-    matrix = a + b + c + d + e
+def calculate_times(a, n=5, window=1):
+    matrix=a
+    for i in range(n):
+        matrix += np.random.randint(0, 2, size=(DAYS, BLOCKS))
     if window>1:
         days=len(matrix)
         blocks=len(matrix[0]) - 3
@@ -43,15 +49,7 @@ def calculate_times(a, b, c, d, e, window=1):
         return matrix
 
 def block_to_time(block_index, window=1):
-    """
-    Convert a block index into a time range string based on window size.
 
-    Parameters:
-    - block_index: index of the block in the matrix
-    - window: number of 15-min blocks in this slot
-
-    Returns: string like '09:15-10:15'
-    """
     block_minutes = 15  # smallest unit
     start_total_minutes = block_index * block_minutes
     end_total_minutes = start_total_minutes + window * block_minutes
@@ -67,7 +65,7 @@ def block_to_time(block_index, window=1):
 
 
 
-def best_times(matrix):
+def best_times(matrix, people, window):
     flat_indices = np.argsort(matrix, axis=None)
     top10_flat_indices = flat_indices[:10]
 
@@ -77,14 +75,14 @@ def best_times(matrix):
     for coord in top10_coords:
         day, block = coord
         value = matrix[day, block]
-        print(f"Day {day}, Block {block}, {block_to_time(block, window=3)}, People Busy: {value}")
+        print(f"Day {day+1}, Block {block+1}, {block_to_time(block, window=4)}, Free: {people-math.ceil(value)} to {people-math.floor(value)} people")
 
 def main():
     #events = events(eventID)
 
-    a, b, c, d, e = example() #busyness matrices
-    times = calculate_times(a, b, c, d, e, window=3)
-    top = best_times(times)
+    a = example() #busyness matrices
+    times = calculate_times(a, n=PEOPLE, window=WINDOW)
+    top = best_times(times, people=PEOPLE)
     print(top)
 
 if __name__ == '__main__':
