@@ -15,8 +15,8 @@ supabase: Client = create_client(url, key)
 app = FastAPI()
 @app.post("/best-time/{event_id}")
 async def best_time(event_id: str):
-    print(url)
-    print(key)
+    # print(url)
+    # print(key)
 
     response = (
         supabase.table("Events")

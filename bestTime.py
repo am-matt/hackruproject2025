@@ -1,5 +1,7 @@
 import numpy as np
 import math
+import json
+
 
 BLOCKS=96
 DAYS=7
@@ -28,7 +30,7 @@ def calculate_times(matrices, window=1):
                 # print(matrix[day, block:block+window])
                 # print(np.mean(matrix[day, block:block+window]))
                 windowed[block, day] = np.mean(matrix[day, block:block+window])
-        print(windowed)
+        # print(windowed)
         return windowed
     else: 
         return matrix
@@ -56,9 +58,9 @@ def best_times(matrix, window, people):
     days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
     top10_coords = np.array(np.unravel_index(top10_flat_indices, matrix.shape)).T
-    print(top10_coords)
+    # print(top10_coords)
     top10 = {}
-    print("Top 10 minimum values and coordinates:")
+    # print("Top 10 minimum values and coordinates:")
     for coord in top10_coords:
         block, day = coord
         day_name = days[day]
@@ -67,9 +69,10 @@ def best_times(matrix, window, people):
         high_free = math.ceil(value)
         low_free = math.floor(value)
 
-        print(f"Day {day_name}, Block {block}, {time}, Free: {low_free} to {high_free} people")
+        # print(f"Day {day_name}, Block {block}, {time}, Free: {low_free} to {high_free} people")
 
-        top10[block] = {"day": day_name, "time": time, "free": (low_free, high_free)}
+        top10[int(block)] = {"day": day_name, "time": time, "free": (low_free, high_free)}
+    # print("top10:", top10)
     return top10
 
 
@@ -81,6 +84,9 @@ def main(matrices, window):
     times = calculate_times(matrices, window)
     # print(times)
     top = best_times(times, window, people=len(matrices))
+    # print(type(top))
+    # print(top)
+    json_string = json.dumps(top)
     return top
 
 # if __name__ == '__main__':
