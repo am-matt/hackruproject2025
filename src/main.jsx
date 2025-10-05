@@ -9,6 +9,7 @@ import Nav from './components/Nav.jsx'
 import { AuthProvider, useAuth } from './auth/AuthProvider.jsx'
 import { supabase } from './supabaseClient'
 import AuthCallback from './auth/AuthCallback.jsx'
+import CreateEvent from './pages/CreateEvent.jsx'
 
 function ProtectedRoute({ children }) {
   const { user } = useAuth();
@@ -21,6 +22,7 @@ createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/eventcreate" element={<CreateEvent />} />
         <Route path="/discovery" element={<Discovery />} />
         <Route path="/auth/callback" element={<AuthCallback />} />
         <Route path="protected" element={
