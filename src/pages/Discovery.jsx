@@ -11,19 +11,18 @@ export default function Discovery() {
         async function fetchEvents() {
             const { data: eventsData } = await supabase.from("Events").select("*");
             const enrichedEvents = await Promise.all(
-                eventsData.map(async (event) => {
-                    const { data: profile } = await supabase
-                    .from("Profiles")
-                    .select("display_name, avatarurl")
-                    .eq("id", event.organizer)
-                    .single();
-
-                    return {
-                    ...event,
-                    organizerName: profile?.display_name || "Unknown Organizer",
-                    organizerAvatar: profile?.avatarurl || null
-                    };
-                })
+            eventsData.map(async (event) => {
+                const { data: profile } = await supabase
+                .from("Profiles")
+                .select("display_name, avatarurl")
+                .eq("id", event.organizer)
+                .single();
+                return {
+                ...event,
+                organizerName: profile?.display_name || "Unknown Organizer",
+                organizerAvatar: profile?.avatarurl || null
+                };
+            })
             );
 
             setEventsWithNames(enrichedEvents);
@@ -77,7 +76,7 @@ export default function Discovery() {
     return (
         <div>
             <Nav />
-            <h1>All Events</h1>
+            <h1 class="text-center text-white font-roboto text-2xl mt-3 font-semibold">All Events</h1>
             <br />
             {eventsWithNames.map(event => (
                 <div key={event.id}>
