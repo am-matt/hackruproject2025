@@ -1,18 +1,18 @@
-function NavPopupButton({ text }) {
+function NavPopupButton({ text, classes }) {
     return (
-        <button class="ml-2 text-black font-roboto">{text}</button>
+        <button className={`flex text-sm p-1 align-center transition-bg pl-2 text-left text-dark-gray cursor-pointer font-roboto ${classes} w-full hover:bg-dark-gray/[10%] active:bg-dark-gray/[20%]`}>{text}</button>
     )
 }
 
-export default function NavPopup() {
+export default function NavPopup({ refA, className }) {
     return (
-        <div class="w-30 h-auto bg-white rounded-lg">
+        <div ref={refA} className={`${className} transition-transform origin-top-left inset-shadow-innerbox shadow-lg absolute w-30 right-10 top-10 h-auto bg-white rounded-lg overflow-hidden`}>
             <ul>
                 <li>
                     <NavPopupButton text="Settings"></NavPopupButton>    
                 </li>
                 <li>
-                <NavPopupButton text="Logout"></NavPopupButton>
+                    <NavPopupButton classes="text-red" text="Logout"></NavPopupButton>
                 </li>
             </ul>
             
