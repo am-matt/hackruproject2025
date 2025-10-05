@@ -1,25 +1,20 @@
 import numpy as np
-import itertools
-import os
 import math
 
 BLOCKS=96
 DAYS=7
-PEOPLE=50
+# PEOPLE=50
 WINDOW=4 #1 block is 15 mins. Ex. WINDOW=4 means 4 blocks ~ 1hour
 
 def example():
     a = np.random.randint(0, 2, size=(DAYS, BLOCKS))
-    b = np.random.randint(0, 2, size=(DAYS, BLOCKS))
-    c = np.random.randint(0, 2, size=(DAYS, BLOCKS))
-    d = np.random.randint(0, 2, size=(DAYS, BLOCKS))
-    e = np.random.randint(0, 2, size=(DAYS, BLOCKS))
-    return a, b, c, d, e
+    return a
 
-def calculate_times(a, n=5, window=1):
-    matrix=a
-    for i in range(n):
-        matrix += np.random.randint(0, 2, size=(DAYS, BLOCKS))
+def calculate_times(matrices, window=1):
+    # matrix=a[0]
+    # for i in range(len(a)):
+    #     matrix += np.random.randint(0, 2, size=(DAYS, BLOCKS))
+    matrix = np.sum(matrices, axis=0)
     if window>1:
         days=len(matrix)
         blocks=len(matrix[0]) - 3
@@ -51,26 +46,37 @@ def block_to_time(block_index, window=1):
 
 
 
-def best_times(matrix, people, window):
+def best_times(matrix, window, people):
     flat_indices = np.argsort(matrix, axis=None)
     top10_flat_indices = flat_indices[:10]
+    days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
     top10_coords = np.array(np.unravel_index(top10_flat_indices, matrix.shape)).T
-
+    top10 = {}
     print("Top 10 minimum values and coordinates:")
     for coord in top10_coords:
         day, block = coord
+        day_name = days[day]
+        time = block_to_time(block, window)
         value = matrix[day, block]
-        print(f"Day {day+1}, Block {block+1}, {block_to_time(block, window=4)}, Free: {people-math.ceil(value)} to {people-math.floor(value)} people")
+        low_free = people-math.ceil(value)
+        high_free = people-math.floor(value)
 
-def main():
+        print(f"Day {day_name}, Block {block}, {time}, Free: {low_free} to {high_free} people")
+
+        top10[block] = {"day": day_name, "time": time, "free": (low_free, high_free)}
+    return top10
+
+
+
+def main(matrices, window):
     #events = events(eventID)
+    # a = example() #busyness matrices
 
-    a = example() #busyness matrices
-    times = calculate_times(a, n=PEOPLE, window=WINDOW)
-    top = best_times(times, people=PEOPLE)
-    print(top)
+    times = calculate_times(matrices, window)
+    top = best_times(times, window, people=len(matrices))
+    return top
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()
 
