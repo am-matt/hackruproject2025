@@ -1,9 +1,17 @@
+import { useState } from 'react';
+import ScheduleGraph from './ScheduleGraph';
 import profile from '../assets/profile.svg'
 import location from '../assets/location.png'
 import people from '../assets/people.png'
 import time from '../assets/time.png'
 
 export default function Event({ event, session, onInterest, deleteEvent }) {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const [availabilityMatrix, setAvailabilityMatrix] = useState(
+        Array.from({ length: 48 }, () => Array(7).fill(0))
+    );
+
     function formatDate(data,minutes) {
         const date = new Date((new Date(data)).toLocaleString('en-US', {timeZone:'America/New_York'}));
         const pad = (num) => num.toString().padStart(2, '0');
@@ -17,7 +25,11 @@ export default function Event({ event, session, onInterest, deleteEvent }) {
     }
 
     return (
-        <div className="transition-all rounded-lg m-2 bg-darker-gray p-2 min-w-100 max-w-100 max-h-40 shadow-md hover:shadow-lg hover:scale-105" key={event.id}>
+        <div class={`${isOpen ? "fixed z-10 top-0 left-0 w-[100%] h-[100%] bg-semiblack" : ""}`}>
+        <div onMouseDown={()=>{
+            console.log("setting state");
+            setIsOpen(isOpen ? false : true);
+        }} className={`${isOpen ? "fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] h-[90%] z-200" : "min-w-100 max-w-100 max-h-40 hover:scale-105"} transition-all rounded-lg m-2 bg-darker-gray p-2 shadow-md hover:shadow-lg cursor-pointer`} key={event.id}>
             <h2 className="text-white font-roboto text-xl truncate">{event.title}</h2>
             <p className="text-white font-roboto text-base truncate">{event.description}</p>
             <div className="flex mb-1">
@@ -76,9 +88,18 @@ export default function Event({ event, session, onInterest, deleteEvent }) {
                     : null
                 )
             }
+
+            {
+                (isOpen ?
+                    <ScheduleGraph className="absolute origin-top-left scale-100 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" availabilityMatrix={availabilityMatrix} setAvailabilityMatrix={setAvailabilityMatrix} />
+                : null)
+            }
+            
             
             <br />
             <br />
+            
+        </div>
         </div>
     )
 }

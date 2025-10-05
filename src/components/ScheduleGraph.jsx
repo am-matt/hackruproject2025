@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 
-export default function ScheduleGraph({ canEdit, availabilityMatrix, setAvailabilityMatrix }) {
+export default function ScheduleGraph({ canEdit, className, availabilityMatrix, setAvailabilityMatrix }) {
     const mousePopup = useRef(null);
     const [isOpen, setIsOpen] = useState(false);
 
@@ -13,7 +13,7 @@ export default function ScheduleGraph({ canEdit, availabilityMatrix, setAvailabi
     }
 
     return (
-        <div class="flex justify-center m-auto h-fit w-fit bg-darker-gray">
+        <div class={`${className} flex justify-center m-auto h-fit w-fit bg-darker-gray`}>
             <p
             ref={mousePopup}
             inert
