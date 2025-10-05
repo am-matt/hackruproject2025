@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import Nav from '../components/Nav'
-import Event from '../components/Event'
 import { supabase } from '../supabaseClient';
 
 export default function Discovery() {
@@ -79,21 +78,8 @@ export default function Discovery() {
             <Nav />
             <h1 class="text-center text-white font-roboto text-2xl mt-3 font-semibold">All Events</h1>
             <br />
-            <div class="flex flex-wrap justify-center">
-                {eventsWithNames.map((event) => {
-                    return <Event key={event.id} event={event} session={session} onInterest={markInterested} />
-                })}
-            </div>
-            
-            
-        </div>  
-    )
-    
-}
-
-
-
-/*<div key={event.id}>
+            {eventsWithNames.map(event => (
+                <div key={event.id}>
                     <h2>Title: {event.title}</h2>
                     <p>Description: {event.description}</p>
                     <p>Location: {event.location}</p>
@@ -105,4 +91,9 @@ export default function Discovery() {
                     </button>
                     <br />
                     <br />
-                </div>*/
+                </div>
+            ))}
+        </div>  
+    )
+    
+}
