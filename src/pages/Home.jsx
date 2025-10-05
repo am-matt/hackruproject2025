@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../supabaseClient'
 import { AuthProvider, useAuth } from '../auth/AuthProvider'
+import { Navigate } from 'react-router-dom';
 
 function Home() {
     const signInWithGoogle = async () => {
@@ -17,25 +18,18 @@ function Home() {
 
     const { user } = useAuth();
 
+    if (user) {
+        return <Navigate to="/discovery" />
+    }
+
     return (
         <div>
-            <div class="text-center">
-                <h1 class="text-white text-7xl font-roboto">RUFree?</h1>
-                <h2 class="text-white text-3xl font-roboto">Get involved on campus!</h2>
+            <div class="text-center pt-25">
+                <h1 class="font-bold text-white text-7xl font-roboto"><span class="text-red">RU</span>Free?</h1>
+                <h2 class="font-bold text-white text-3xl font-roboto">Get involved on campus!</h2>
+                <button class="font-bold transition-all mt-10 bg-transparent hover:bg-white text-white hover:text-dark-gray border-2 border-white rounded-lg border-solid p-2 w-60 cursor-pointer" onClick={signInWithGoogle}>Log in with Google</button>
             </div>
             
-            <Link class="text-white font-roboto" to="/about">About</Link>
-            {user ? (
-                <>
-                    <p>Signed in as {user.email}</p>
-                    <button onClick={signOut}>Sign out</button>
-                </>
-            ) : (
-                <>
-                    <p>Not signed in</p>
-                    <button class="border-2 border-white rounded-lg border-solid p-2 w-34" onClick={signInWithGoogle}>Login</button>
-                </>
-            )}
         </div>   
     )
 }
