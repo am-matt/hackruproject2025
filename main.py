@@ -21,7 +21,7 @@ async def best_time(event_id: str):
     response = (
         supabase.table("Events")
         .select("interested")
-        .eq("id", 52)
+        .eq("id", event_id)
         .execute()
     )
     # print(response.data)
@@ -49,12 +49,11 @@ async def best_time(event_id: str):
     response = (
         supabase.table("Events")
         .select("windowSize")
-        .eq("id", 52)
+        .eq("id", event_id)
         .execute()
     )
     window = response.data[0]["windowSize"]
 # print(window)
-
 # print(bestTime.main(availabilities, window))
     return bestTime.main(availabilities, window) #A dictionary of dictionaries: {block: {day: , time:, free: ()}}
 
