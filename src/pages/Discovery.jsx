@@ -76,7 +76,7 @@ export default function Discovery() {
     return (
         <div>
             <Nav />
-            <h1 class="text-center text-white font-roboto text-2xl mt-3 font-semibold">All Events</h1>
+            <h1 className="text-center text-white font-roboto text-2xl mt-3 font-semibold">All Events</h1>
             <br />
             {eventsWithNames.map(event => (
                 <div key={event.id}>
