@@ -8,9 +8,12 @@
 
 @theme {
   --color-dark-gray: #233142;
+  --color-darker-gray: #1B2633;
   --color-light-gray: #455d7a;
   --color-red: #f95959;
+  --color-semiwhite: rgba(255,255,255,0.5);
   --color-white: #e3e3e3;
+  --inset-shadow-innerbox: inset 0px -2px 2px rgba(0,0,0,0.2);
   --font-roboto: "Roboto", sans-serif;
 }
 
