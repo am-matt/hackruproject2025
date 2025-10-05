@@ -27,7 +27,7 @@ function Home() {
             <div class="text-center pt-25">
                 <h1 class="select-none font-bold text-white text-7xl font-roboto"><span class="text-red">RU</span>Free?</h1>
                 <h2 class="select-none font-bold text-white text-3xl font-roboto">Get involved on campus!</h2>
-                <button class="select-none font-bold transition-all mt-10 bg-transparent hover:bg-white text-white hover:text-dark-gray border-2 border-white rounded-lg border-solid p-2 w-60 cursor-pointer" onClick={signInWithGoogle}>Log in with Google</button>
+                <button class="select-none font-bold transition-all mt-10 bg-transparent hover:bg-white text-white hover:text-dark-gray border-2 border-white rounded-lg border-solid p-2 w-60 cursor-pointer hover:inset-shadow-innerbox active:inset-shadow-xs" onClick={signInWithGoogle}>Log in with Google</button>
                 <h3 class="select-none text-xs text-white">Only available to Rutgers students</h3>
             </div>
             

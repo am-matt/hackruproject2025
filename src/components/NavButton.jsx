@@ -14,7 +14,7 @@ export default function NavButton({ text, className, img, onclick, refA }) {
                     ></img>
                 ) : null}
                 <span ref={refA} className="select-none transition-color relative z-2 text-white group-hover:text-dark-gray">{text}</span>
-                <span className="select-none inset-shadow-innerbox scale-y-0 transition-transform absolute inset-0 bg-white origin-bottom  group-hover:scale-y-100"></span>
+                <span className="transition-all select-none inset-shadow-innerbox scale-y-0  absolute inset-0 bg-white origin-bottom  group-hover:scale-y-100 group-active:inset-shadow-xs"></span>
             </button>
         </div>
     );
