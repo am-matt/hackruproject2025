@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 
 export default function ScheduleGraph({ canEdit, className, availabilityMatrix, setAvailabilityMatrix }) {
     const mousePopup = useRef(null);
+    const mainDiv = useRef(null);
     const [isOpen, setIsOpen] = useState(false);
 
     function toggleCell(row, col) {
@@ -13,13 +14,13 @@ export default function ScheduleGraph({ canEdit, className, availabilityMatrix, 
     }
 
     return (
-        <div class={`${className} flex justify-center m-auto h-fit w-fit bg-darker-gray`}>
+        <div ref={mainDiv} class={`${className} flex justify-center m-auto h-fit w-fit bg-darker-gray`}>
             <p
             ref={mousePopup}
             inert
             className={`${
             isOpen ? "" : "invisible"
-            } absolute w-15 h-4 text-xs opacity-75 text-black text-center flex items-center justify-center bg-white rounded-sm`}
+            } fixed w-15 h-4 text-xs opacity-75 text-black text-center flex items-center justify-center bg-white rounded-sm`}
             >            
             </p>
 
@@ -28,8 +29,14 @@ export default function ScheduleGraph({ canEdit, className, availabilityMatrix, 
             }} onMouseLeave={(e)=>{
                 setIsOpen(false);
             }} onMouseMove={(e)=>{
-                mousePopup.current.style.left = `${e.clientX+5}px`;
-                mousePopup.current.style.top = `${(e.clientY-10+window.scrollY)}px`;
+                if (!canEdit) {
+                    const rect = mainDiv.current.getBoundingClientRect();
+                    mousePopup.current.style.left = `${e.clientX - rect.left + 5}px`;
+                    mousePopup.current.style.top = `${e.clientY - rect.top - 10}px`;
+                } else {
+                    mousePopup.current.style.left = `${e.clientX + 5}px`;
+                    mousePopup.current.style.top = `${e.clientY - 10}px`;
+                }
             }}>
                 <tr class="select-none border-1 border-white text-white text-center">
                     <td class="border-1 border-white">Mon</td>
