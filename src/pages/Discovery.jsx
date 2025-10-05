@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import Nav from '../components/Nav'
-import Event from '../components/Event'
 import { supabase } from '../supabaseClient';
 
 export default function Discovery() {
@@ -12,17 +11,19 @@ export default function Discovery() {
         async function fetchEvents() {
             const { data: eventsData } = await supabase.from("Events").select("*");
             const enrichedEvents = await Promise.all(
-            eventsData.map(async (event) => {
-                const { data: profile } = await supabase
-                .from("Profiles")
-                .select("display_name")
-                .eq("id", event.organizer)
-                .single();
-                return {
-                ...event,
-                organizerName: profile?.display_name || "Unknown Organizer"
-                };
-            })
+                eventsData.map(async (event) => {
+                    const { data: profile } = await supabase
+                    .from("Profiles")
+                    .select("display_name, avatarurl")
+                    .eq("id", event.organizer)
+                    .single();
+
+                    return {
+                    ...event,
+                    organizerName: profile?.display_name || "Unknown Organizer",
+                    organizerAvatar: profile?.avatarurl || null
+                    };
+                })
             );
 
             setEventsWithNames(enrichedEvents);
@@ -76,23 +77,10 @@ export default function Discovery() {
     return (
         <div>
             <Nav />
-            <h1 class="text-center text-xl mt-3">All Events</h1>
+            <h1>All Events</h1>
             <br />
-            <div class="flex flex-wrap justify-center">
-                {eventsWithNames.map((event) => {
-                    return <Event key={event.id} event={event} session={session} onInterest={markInterested} />
-                })}
-            </div>
-            
-            
-        </div>  
-    )
-    
-}
-
-
-
-/*<div key={event.id}>
+            {eventsWithNames.map(event => (
+                <div key={event.id}>
                     <h2>Title: {event.title}</h2>
                     <p>Description: {event.description}</p>
                     <p>Location: {event.location}</p>
@@ -104,4 +92,9 @@ export default function Discovery() {
                     </button>
                     <br />
                     <br />
-                </div>*/
+                </div>
+            ))}
+        </div>  
+    )
+    
+}
