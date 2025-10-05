@@ -5,6 +5,7 @@ import Home from './pages/Home.jsx'
 import Discovery from './pages/Discovery.jsx'
 import Settings from './pages/Settings.jsx'
 import MyEvents from './pages/MyEvents.jsx'
+import Setup from './pages/Setup.jsx'
 
 import { AuthProvider, useAuth } from './auth/AuthProvider.jsx'
 import AuthCallback from './auth/AuthCallback.jsx'
@@ -24,6 +25,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/newevent" element={<CreateEvent />} />
         <Route path="/discovery" element={<Discovery />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/setup" element={<Setup />} />
         <Route path="/events" element={<MyEvents />} />
         <Route path="/auth/callback" element={<AuthCallback />} />
         <Route path="protected" element={
