@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import ScheduleGraph from './ScheduleGraph';
 import profile from '../assets/profile.svg'
 import location from '../assets/location.png'
@@ -7,6 +7,8 @@ import time from '../assets/time.png'
 
 export default function Event({ event, session, onInterest, deleteEvent }) {
     const [isOpen, setIsOpen] = useState(false);
+    const [bestTime, setBestTime] = useState(null);
+    const API_URL = "http://127.0.0.1:8000" // yeah..
 
     const [availabilityMatrix, setAvailabilityMatrix] = useState(
         Array.from({ length: 48 }, () => Array(7).fill(0))
@@ -23,6 +25,30 @@ export default function Event({ event, session, onInterest, deleteEvent }) {
         const laterDateFormat = `${laterDate.getMonth()+1}/${laterDate.getDate()}/${laterDate.getFullYear()} ${pad(laterDate.getHours())}:${pad(laterDate.getMinutes())} ${ampm}`;
         return `${ogDateFormat} - ${laterDateFormat}`;
     }
+
+    async function fetchBestTime(eventId) {
+        const res = await fetch(`${API_URL}/best-time/${eventId}`,{
+            method: "POST"
+        });
+        return res.json();
+    }
+
+    useEffect(()=> {
+        async function loadBestTime() {
+            try {
+                const data = await fetchBestTime(event.id);
+                data.then((s)=>{
+                    console.log(s);
+                    setBestTime(s);
+                })
+            } catch(err) {
+                console.error("Failed to fetch best time:",err);
+            }
+        }
+        if (event?.id) {
+            loadBestTime();
+        }
+    },[event.id])
 
     return (
         <div onMouseDown={()=>{
