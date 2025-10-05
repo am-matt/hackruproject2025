@@ -14,7 +14,7 @@ export default function Nav() {
     const { user } = useAuth();
 
     const [isOpen, setIsOpen] = useState(false);
-    
+
     function togglePopup() {
         setIsOpen((prev) => !prev);
     }
@@ -57,7 +57,7 @@ export default function Nav() {
     }
 
     return (
-        <div className="sticky top-0 border-b-2 bg-darker-gray border-white flex w-full shadow-lg">
+        <div className="sticky z-100 top-0 border-b-2 bg-darker-gray border-white flex w-full shadow-lg">
             <NavButton onclick={toDiscover} text="Discover"></NavButton>
             <NavButton onclick={toMyEvents} text="My Events"></NavButton>
             <NavButton refA={buttonEle} onclick={togglePopup} img={user.user_metadata.avatar_url} className={`absolute right-2`} text={user.user_metadata.full_name}></NavButton>

@@ -77,15 +77,12 @@ export default function Discovery() {
     return (
         <div>
             <Nav />
-            <h1 class="text-center text-white font-roboto text-2xl mt-3 font-semibold">All Events</h1>
-            <br />
+            <h1 class="select-none text-center text-white font-roboto text-2xl mt-3 font-semibold">All Events</h1>
             <div class="flex flex-wrap justify-center">
                 {eventsWithNames.map((event) => {
                     return <Event key={event.id} event={event} session={session} onInterest={markInterested} />
                 })}
             </div>
-            
-            
         </div>  
     )
     

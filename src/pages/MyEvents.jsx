@@ -3,6 +3,7 @@ import Nav from '../components/Nav'
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { supabase } from '../supabaseClient';
+import Event from '../components/Event';
 
 
 export default function MyEvents() {
@@ -60,27 +61,31 @@ export default function MyEvents() {
     return (
         <div>
             <Nav />
-            <button onClick={createNewEvent}>Create new event</button>
-            <br />
-            <br />
-
-            <h2>My Events</h2>
-            <br />
+            <div class="flex flex-col items-center">
+                <h2 class="select-none text-center text-white font-roboto text-2xl mt-3 font-semibold">My Events</h2>
+                <button class="select-none font-bold transition-all mt-2 bg-transparent hover:bg-white text-white hover:text-dark-gray border-2 border-white rounded-lg border-solid p-2 w-40 cursor-pointer hover:inset-shadow-innerbox active:inset-shadow-xs" onClick={createNewEvent}>New Event</button>
+            </div>
+            
+            
             {myEvents.length > 0 ? (
-                <ul>
-                {myEvents.map((event) => (
-                    <li key={event.id}>
+                <div class="flex flex-wrap justify-center">
+                {myEvents.map((event) => {
+                    return <Event key={event.id} event={event} deleteEvent={()=>{handleDelete(event.id)}} />
+                })}
+                </div>
+            ) : (
+                <p class="text-white font-roboto text-center mt-5 select-none">You haven't created any events yet.</p>
+        )}
+        </div>
+    )
+}
+
+/*
+<li key={event.id}>
                     <strong>{event.title}</strong> — {event.description}
                     <br />
                     <button onClick={() => handleDelete(event.id)}>Delete</button>
                     <br />
                     <br />
                     </li>
-                ))}
-                </ul>
-            ) : (
-                <p>You haven’t created any events yet.</p>
-        )}
-        </div>
-    )
-}
+*/

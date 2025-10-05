@@ -3,7 +3,7 @@ import location from '../assets/location.png'
 import people from '../assets/people.png'
 import time from '../assets/time.png'
 
-export default function Event({ event, session, onInterest }) {
+export default function Event({ event, session, onInterest, deleteEvent }) {
     function formatDate(data,minutes) {
         const date = new Date((new Date(data)).toLocaleString('en-US', {timeZone:'America/New_York'}));
         const pad = (num) => num.toString().padStart(2, '0');
@@ -21,18 +21,22 @@ export default function Event({ event, session, onInterest }) {
             <h2 className="text-white font-roboto text-xl truncate">{event.title}</h2>
             <p className="text-white font-roboto text-base truncate">{event.description}</p>
             <div className="flex mb-1">
-                <p className="text-white flex items-center text-sm mr-2">
-                    {event.organizerAvatar ? (
-                        <img className="transition-color relative z-3 bg-white rounded-full align-middle mr-1.5 w-5 h-5 group-hover:border-black"
-                        src={event.organizerAvatar}
-                        onError={(e)=>{
-                            e.target.src=profile;
-                            e.target.classList.add("fill-white");
-                        }}
-                        ></img>
-                    ) : null}
-                    {event.organizerName}
-                </p>
+                {
+                    session ?
+                    <p className="text-white flex items-center text-sm mr-2">
+                        {event.organizerAvatar ? (
+                            <img className="transition-color relative z-3 bg-white rounded-full align-middle mr-1.5 w-5 h-5 group-hover:border-black"
+                            src={event.organizerAvatar}
+                            onError={(e)=>{
+                                e.target.src=profile;
+                                e.target.classList.add("fill-white");
+                            }}
+                            ></img>
+                        ) : null}
+                        {event.organizerName}
+                    </p>
+                    : null
+                }
                 <p className="text-white flex items-center text-sm truncate">
                     <img className="transition-color relative z-3 rounded-full align-middle mr-1.5 w-3.5 h-3.5 group-hover:border-black"
                     src={location}></img>
@@ -55,10 +59,24 @@ export default function Event({ event, session, onInterest }) {
                 </p>
             </div>
             
+            {
+                (session ?
+                    <button className="mt-1 cursor-pointer text-white text-base rounded-lg p-1 bg-dark-gray active:bg-light-gray" onClick={() => onInterest(event.id)}>
+                        {event.interested?.includes(session.user.id) ? "Not Interested" : "I'm Interested"}
+                    </button>
+                    :
+                    null
+                )
+            }
+            {
+                (deleteEvent ?
+                    <button className="mt-1 cursor-pointer text-white text-base rounded-lg p-1 bg-dark-gray active:bg-light-gray" onClick={deleteEvent}>
+                        Delete Event
+                    </button>
+                    : null
+                )
+            }
             
-            <button className="mt-1 cursor-pointer text-white text-base rounded-lg p-1 bg-dark-gray active:bg-light-gray" onClick={() => onInterest(event.id)}>
-                {event.interested?.includes(session.user.id) ? "Not Interested" : "I'm Interested"}
-            </button>
             <br />
             <br />
         </div>
