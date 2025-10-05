@@ -14,11 +14,7 @@ export default function Nav() {
     const { user } = useAuth();
 
     const [isOpen, setIsOpen] = useState(false);
-
-    if (!user) {
-        return <Navigate to="/" />
-    }
-
+    
     function togglePopup() {
         setIsOpen((prev) => !prev);
     }
@@ -54,6 +50,10 @@ export default function Nav() {
 
     async function toMyEvents() {
         navigate("/events")
+    }
+
+    if (!user) {
+        return <Navigate to="/" />
     }
 
     return (
