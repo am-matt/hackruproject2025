@@ -2,25 +2,11 @@ import numpy as np
 import itertools
 import os
 import math
-from supabase import create_client, Client
 
 BLOCKS=96
 DAYS=7
 PEOPLE=50
 WINDOW=4 #1 block is 15 mins. Ex. WINDOW=4 means 4 blocks ~ 1hour
-
-def create_client():
-    url: str = os.environ.get("SUPABASE_URL")
-    key: str = os.environ.get("SUPABASE_KEY")
-    supabase: Client = create_client(url, key)
-
-def events(eventID):
-    response = (
-    supabase.table("events")
-    .select(eventID)
-    .execute()
-)
-    return response
 
 def example():
     a = np.random.randint(0, 2, size=(DAYS, BLOCKS))
