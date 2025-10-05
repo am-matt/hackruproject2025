@@ -22,5 +22,5 @@ export default function AuthCallback() {
     handleCallback();
   }, [navigate]);
 
-  return <p>Completing sign in...</p>;
+  return <p class="text-white text-center">Signing you in...</p>;
 }

@@ -1,5 +1,6 @@
 import { use, useState } from "react";
 import { supabase } from "../supabaseClient";
+import Nav from '../components/Nav'
 
 export default function CreateEvent(){
 
@@ -53,6 +54,7 @@ export default function CreateEvent(){
 
     return(
         <>
+            <Nav />
             <h1 style={{textAlign: "center", color: "white", fontSize: "45px"}}>Create an Event</h1>
 
             <form onSubmit={handleSubmit}>
