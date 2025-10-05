@@ -15,12 +15,13 @@ export default function Discovery() {
             eventsData.map(async (event) => {
                 const { data: profile } = await supabase
                 .from("Profiles")
-                .select("display_name")
+                .select("display_name, avatarurl")
                 .eq("id", event.organizer)
                 .single();
                 return {
                 ...event,
-                organizerName: profile?.display_name || "Unknown Organizer"
+                organizerName: profile?.display_name || "Unknown Organizer",
+                organizerAvatar: profile?.avatarurl || null
                 };
             })
             );
@@ -76,7 +77,7 @@ export default function Discovery() {
     return (
         <div>
             <Nav />
-            <h1 class="text-center text-xl mt-3">All Events</h1>
+            <h1 class="text-center text-white font-roboto text-2xl mt-3 font-semibold">All Events</h1>
             <br />
             <div class="flex flex-wrap justify-center">
                 {eventsWithNames.map((event) => {
