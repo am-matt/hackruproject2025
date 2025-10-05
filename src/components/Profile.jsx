@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import { supabase } from '../supabaseClient';
 
-export default function Profile() {
+export default function Profile({ firstTimeSetup }) {
+    const navigate = useNavigate();
     const [displayName, setDisplayName] = useState("");
     const [availabilityMatrix, setAvailabilityMatrix] = useState(
         Array.from({ length: 48 }, () => Array(7).fill(0))
@@ -62,6 +64,10 @@ export default function Profile() {
             alert("Failed to save profile");
         } else {
             alert("Profile saved!");
+            if (firstTimeSetup) {
+                
+                navigate("/discovery");
+            }
         }
     }
 

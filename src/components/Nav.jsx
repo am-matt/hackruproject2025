@@ -4,6 +4,7 @@ import { AuthProvider, useAuth } from '../auth/AuthProvider'
 import { Navigate, useNavigate } from 'react-router-dom';
 import NavButton from './NavButton'
 import NavPopup from './NavPopup'
+import checkForProfile from '../autoNavigate'
 
 export default function Nav() {
     const navigate = useNavigate();
@@ -20,6 +21,7 @@ export default function Nav() {
     }
 
     useEffect(() => {
+        checkForProfile(window.location.pathname);
         function handleClickOutside(e) {
             if (popupEle.current &&
         !popupEle.current.contains(e.target) &&

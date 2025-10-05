@@ -4,7 +4,6 @@ import Event from '../components/Event'
 import { supabase } from '../supabaseClient';
 
 export default function Discovery() {
-
     const [eventsWithNames, setEventsWithNames] = useState([]);
     const [session, setSession] = useState(null);
 

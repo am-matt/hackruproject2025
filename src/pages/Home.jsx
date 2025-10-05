@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { supabase } from '../supabaseClient'
 import { AuthProvider, useAuth } from '../auth/AuthProvider'
 import { Navigate } from 'react-router-dom';
+import checkForProfile from '../autoNavigate'
 
 function Home() {
     const signInWithGoogle = async () => {
@@ -16,11 +17,14 @@ function Home() {
         await supabase.auth.signOut()
     }
 
-    const { user } = useAuth();
+    checkForProfile(window.location.pathname);
+
+    /*const { user } = useAuth();
 
     if (user) {
         return <Navigate to="/discovery" />
-    }
+    }*/
+    
 
     return (
         <div>
