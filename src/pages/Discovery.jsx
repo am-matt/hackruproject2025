@@ -86,19 +86,3 @@ export default function Discovery() {
     )
     
 }
-
-
-
-/*<div key={event.id}>
-                    <h2>Title: {event.title}</h2>
-                    <p>Description: {event.description}</p>
-                    <p>Location: {event.location}</p>
-                    <p>Time {event.date_and_time ? <>: {event.date_and_time} </>:<>- Estimated: {event.windowSize * 15} </>}</p>
-                    <p>Organizer: {event.organizerName}</p>
-                    <p>People Interested: {event.interested?.length || 0}</p>
-                    <button onClick={() => markInterested(event.id)}>
-                        {event.interested?.includes(session.user.id) ? "Not Interested" : "I'm Interested"}
-                    </button>
-                    <br />
-                    <br />
-                </div>*/
