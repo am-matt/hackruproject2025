@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import ScheduleGraph from './ScheduleGraph';
 import profile from '../assets/profile.svg'
 import location from '../assets/location.png'
@@ -25,11 +25,23 @@ export default function Event({ event, session, onInterest, deleteEvent }) {
     }
 
     return (
-        <div class={`${isOpen ? "fixed z-10 top-0 left-0 w-[100%] h-[100%] bg-semiblack" : ""}`}>
         <div onMouseDown={()=>{
-            console.log("setting state");
-            setIsOpen(isOpen ? false : true);
-        }} className={`${isOpen ? "fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] h-[90%] z-200" : "min-w-100 max-w-100 max-h-40 hover:scale-105"} transition-all rounded-lg m-2 bg-darker-gray p-2 shadow-md hover:shadow-lg cursor-pointer`} key={event.id}>
+            setIsOpen(false);
+        }} class={`${isOpen ? "fixed z-10 top-0 left-0 w-[100%] h-[100%] bg-semiblack" : ""}`}>
+        <div onMouseDown={(e)=>{
+            e.stopPropagation();
+            setIsOpen(true);
+        }} className={`${isOpen ? "fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] h-[90%] z-200 cursor-initial" : "min-w-100 max-w-100 max-h-30 hover:scale-105 cursor-pointer"} transition-all rounded-lg m-2 bg-darker-gray p-2 shadow-md hover:shadow-lg `} key={event.id}>
+            {
+                (isOpen ?
+                    <p onMouseUp={(e)=>{
+                        setIsOpen(false)
+                    }} class="absolute right-5 top-5 rounded-full pt-2 pb-2 pl-4 pr-4 cursor-pointer bg-semiblack text-2xl text-white">X</p>
+                    :
+                    null
+                )
+            }
+
             <h2 className="text-white font-roboto text-xl truncate">{event.title}</h2>
             <p className="text-white font-roboto text-base truncate">{event.description}</p>
             <div className="flex mb-1">
@@ -72,7 +84,7 @@ export default function Event({ event, session, onInterest, deleteEvent }) {
             </div>
             
             {
-                (session ?
+                (session && isOpen ?
                     <button className="mt-1 cursor-pointer text-white text-base rounded-lg p-1 bg-dark-gray active:bg-light-gray" onClick={() => onInterest(event.id)}>
                         {event.interested?.includes(session.user.id) ? "Not Interested" : "I'm Interested"}
                     </button>
@@ -81,7 +93,7 @@ export default function Event({ event, session, onInterest, deleteEvent }) {
                 )
             }
             {
-                (deleteEvent ?
+                (deleteEvent && isOpen?
                     <button className="mt-1 cursor-pointer text-white text-base rounded-lg p-1 bg-dark-gray active:bg-light-gray" onClick={deleteEvent}>
                         Delete Event
                     </button>
