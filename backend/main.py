@@ -8,8 +8,8 @@ import os
 # Load .env file
 load_dotenv()
 
-url: str = os.getenv("SUPABASE_URL")
-key: str = os.getenv("SUPABASE_KEY")
+url: str = os.getenv("VITE_SUPABASE_URL")
+key: str = os.getenv("VITE_SUPABASE_ANON_KEY")
 supabase: Client = create_client(url, key)
 
 app = FastAPI()
